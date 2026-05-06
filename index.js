@@ -1,27 +1,7 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
-// Function to set canvas size responsively
-function setCanvasSize() {
-  const maxWidth = 1024;
-  const maxHeight = 576;
-  const aspectRatio = maxWidth / maxHeight;
-
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-
-  if (width / height > aspectRatio) {
-    width = height * aspectRatio;
-  } else {
-    height = width / aspectRatio;
-  }
-
-  canvas.width = Math.min(width, maxWidth);
-  canvas.height = Math.min(height, maxHeight);
-}
-
-setCanvasSize();
-window.addEventListener('resize', setCanvasSize);
+canvas.width = 1024;
+canvas.height = 576;
 
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
@@ -84,7 +64,6 @@ oldManImg.src = './img/oldMan/Idle.png'
 
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    // 1026 === villager
     if (symbol === 1026) {
       characters.push(
         new Character({
@@ -103,7 +82,6 @@ charactersMap.forEach((row, i) => {
         })
       )
     }
-    // 1031 === oldMan
     else if (symbol === 1031) {
       characters.push(
         new Character({
@@ -232,8 +210,6 @@ function animate() {
   player.animate = false
 
   if (battle.initiated) return
-
-  // activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battleZones.length; i++) {
       const battleZone = battleZones[i]
@@ -256,7 +232,6 @@ function animate() {
         overlappingArea > (player.width * player.height) / 2 &&
         Math.random() < 0.01
       ) {
-        // deactivate current animation loop
         window.cancelAnimationFrame(animationId)
 
         audio.Map.stop()
@@ -274,7 +249,6 @@ function animate() {
               opacity: 1,
               duration: 0.4,
               onComplete() {
-                // activate a new animation loop
                 initBattle()
                 animateBattle()
                 gsap.to('#overlappingDiv', {
@@ -424,7 +398,6 @@ function animate() {
       })
   }
 }
-// animate()
 
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
@@ -439,8 +412,6 @@ window.addEventListener('keydown', (e) => {
             player.interactionAsset.dialogue[dialogueIndex]
           return
         }
-
-        // finish conversation
         player.isInteracting = false
         player.interactionAsset.dialogueIndex = 0
         document.querySelector('#characterDialogueBox').style.display = 'none'
@@ -453,8 +424,6 @@ window.addEventListener('keydown', (e) => {
   switch (e.key) {
     case ' ':
       if (!player.interactionAsset) return
-
-      // beginning the conversation
       const firstMessage = player.interactionAsset.dialogue[0]
       document.querySelector('#characterDialogueBox').innerHTML = firstMessage
       document.querySelector('#characterDialogueBox').style.display = 'flex'
@@ -505,8 +474,6 @@ addEventListener('click', () => {
     clicked = true
   }
 })
-
-// Mobile controls
 const upBtn = document.getElementById('up');
 const downBtn = document.getElementById('down');
 const leftBtn = document.getElementById('left');
@@ -522,34 +489,23 @@ function simulateKeyUp(key) {
   const event = new KeyboardEvent('keyup', { key });
   window.dispatchEvent(event);
 }
-
 upBtn.addEventListener('touchstart', () => simulateKeyDown('w'));
 upBtn.addEventListener('touchend', () => simulateKeyUp('w'));
-
 downBtn.addEventListener('touchstart', () => simulateKeyDown('s'));
 downBtn.addEventListener('touchend', () => simulateKeyUp('s'));
-
 leftBtn.addEventListener('touchstart', () => simulateKeyDown('a'));
 leftBtn.addEventListener('touchend', () => simulateKeyUp('a'));
-
 rightBtn.addEventListener('touchstart', () => simulateKeyDown('d'));
 rightBtn.addEventListener('touchend', () => simulateKeyUp('d'));
-
 interactBtn.addEventListener('touchstart', () => simulateKeyDown(' '));
 interactBtn.addEventListener('touchend', () => simulateKeyUp(' '));
-
-// Also support mouse clicks for testing on desktop
 upBtn.addEventListener('mousedown', () => simulateKeyDown('w'));
 upBtn.addEventListener('mouseup', () => simulateKeyUp('w'));
-
 downBtn.addEventListener('mousedown', () => simulateKeyDown('s'));
 downBtn.addEventListener('mouseup', () => simulateKeyUp('s'));
-
 leftBtn.addEventListener('mousedown', () => simulateKeyDown('a'));
 leftBtn.addEventListener('mouseup', () => simulateKeyUp('a'));
-
 rightBtn.addEventListener('mousedown', () => simulateKeyDown('d'));
 rightBtn.addEventListener('mouseup', () => simulateKeyUp('d'));
-
 interactBtn.addEventListener('mousedown', () => simulateKeyDown(' '));
 interactBtn.addEventListener('mouseup', () => simulateKeyUp(' '));

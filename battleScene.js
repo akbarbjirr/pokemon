@@ -20,6 +20,8 @@ function initBattle() {
   document.querySelector('#enemyHealthBar').style.width = '100%'
   document.querySelector('#playerHealthBar').style.width = '100%'
   document.querySelector('#attacksBox').replaceChildren()
+  const controls = document.querySelector('#controls');
+  if (controls) controls.style.display = 'none';
 
   draggle = new Monster(monsters.Draggle)
   emby = new Monster(monsters.Emby)
@@ -31,8 +33,6 @@ function initBattle() {
     button.innerHTML = attack.name
     document.querySelector('#attacksBox').append(button)
   })
-
-  // our event listeners for our buttons (attack)
   document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML]
@@ -54,6 +54,8 @@ function initBattle() {
               cancelAnimationFrame(battleAnimationId)
               animate()
               document.querySelector('#userInterface').style.display = 'none'
+              const controls = document.querySelector('#controls');
+              if (controls) controls.style.display = '';
 
               gsap.to('#overlappingDiv', {
                 opacity: 0
@@ -90,6 +92,8 @@ function initBattle() {
                 cancelAnimationFrame(battleAnimationId)
                 animate()
                 document.querySelector('#userInterface').style.display = 'none'
+                const controls = document.querySelector('#controls');
+                if (controls) controls.style.display = '';
 
                 gsap.to('#overlappingDiv', {
                   opacity: 0
