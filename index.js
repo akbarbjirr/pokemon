@@ -1,8 +1,27 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-canvas.width = 1024
-canvas.height = 576
+// Function to set canvas size responsively
+function setCanvasSize() {
+  const maxWidth = 1024;
+  const maxHeight = 576;
+  const aspectRatio = maxWidth / maxHeight;
+
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+
+  if (width / height > aspectRatio) {
+    width = height * aspectRatio;
+  } else {
+    height = width / aspectRatio;
+  }
+
+  canvas.width = Math.min(width, maxWidth);
+  canvas.height = Math.min(height, maxHeight);
+}
+
+setCanvasSize();
+window.addEventListener('resize', setCanvasSize);
 
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
@@ -486,3 +505,51 @@ addEventListener('click', () => {
     clicked = true
   }
 })
+
+// Mobile controls
+const upBtn = document.getElementById('up');
+const downBtn = document.getElementById('down');
+const leftBtn = document.getElementById('left');
+const rightBtn = document.getElementById('right');
+const interactBtn = document.getElementById('interact');
+
+function simulateKeyDown(key) {
+  const event = new KeyboardEvent('keydown', { key });
+  window.dispatchEvent(event);
+}
+
+function simulateKeyUp(key) {
+  const event = new KeyboardEvent('keyup', { key });
+  window.dispatchEvent(event);
+}
+
+upBtn.addEventListener('touchstart', () => simulateKeyDown('w'));
+upBtn.addEventListener('touchend', () => simulateKeyUp('w'));
+
+downBtn.addEventListener('touchstart', () => simulateKeyDown('s'));
+downBtn.addEventListener('touchend', () => simulateKeyUp('s'));
+
+leftBtn.addEventListener('touchstart', () => simulateKeyDown('a'));
+leftBtn.addEventListener('touchend', () => simulateKeyUp('a'));
+
+rightBtn.addEventListener('touchstart', () => simulateKeyDown('d'));
+rightBtn.addEventListener('touchend', () => simulateKeyUp('d'));
+
+interactBtn.addEventListener('touchstart', () => simulateKeyDown(' '));
+interactBtn.addEventListener('touchend', () => simulateKeyUp(' '));
+
+// Also support mouse clicks for testing on desktop
+upBtn.addEventListener('mousedown', () => simulateKeyDown('w'));
+upBtn.addEventListener('mouseup', () => simulateKeyUp('w'));
+
+downBtn.addEventListener('mousedown', () => simulateKeyDown('s'));
+downBtn.addEventListener('mouseup', () => simulateKeyUp('s'));
+
+leftBtn.addEventListener('mousedown', () => simulateKeyDown('a'));
+leftBtn.addEventListener('mouseup', () => simulateKeyUp('a'));
+
+rightBtn.addEventListener('mousedown', () => simulateKeyDown('d'));
+rightBtn.addEventListener('mouseup', () => simulateKeyUp('d'));
+
+interactBtn.addEventListener('mousedown', () => simulateKeyDown(' '));
+interactBtn.addEventListener('mouseup', () => simulateKeyUp(' '));
